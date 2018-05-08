@@ -1,9 +1,10 @@
 package asset
 
 import (
-	"golang.org/x/tools/godoc/vfs"
 	"fmt"
 	"os"
+
+	"golang.org/x/tools/godoc/vfs"
 )
 
 type failFS struct {
@@ -28,4 +29,10 @@ func (fs *failFS) ReadDir(path string) ([]os.FileInfo, error) {
 }
 func (fs *failFS) String() string {
 	return fmt.Sprintf("failfs(%q)", fs.err)
+}
+
+// An empty RootType signifies that the filesystem is neither a GOPATH nor a
+// GOROOT
+func (fs *failFS) RootType(path string) vfs.RootType {
+	return ""
 }
